@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKILL PARAMETER OVERVIEW & PROFILE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="player-card">
+        <div class="player-panel">
+            <div class="player-card-frame">
+                <div class="player-name">
+                    MANNY
+                </div>
+                
+                <div class="portrait-frame">
+                    <div class="pentagon-boot" id="pentagon-boot">
+                        <div class="boot-piece piece-1"></div>
+                        <div class="boot-piece piece-2"></div>
+                        <div class="boot-piece piece-3"></div>
+                        <div class="boot-piece piece-4"></div>
+                        <div class="boot-piece piece-5"></div>
+                    </div>
+
+                    <img id="player-image" src="" alt="Player portrait">
+                </div>
+
+                <input type="file" id="image-upload" accept="image/*" hidden>
+
+                <button id="import-image">IMPORT PLAYER PICTURE</button>
+                <div class="lower-stat-frame">
+                    <div class="total-label">TOTAL</div>
+                    <div class="total-score" id="overall-score">82</div>
+                    <div class="overall-grade" id="overall-grade">A</div>
+                </div>
+            </div>
+            
+            <div class="grading-system">
+                <div class="grade-row" data-grade="S+"><span>S+</span><span>100 ~ 110</span></div>
+                <div class="grade-row" data-grade="S"><span>S</span><span>90 ~ 99</span></div>
+                <div class="grade-row" data-grade="A"><span>A</span><span>80 ~ 89</span></div>
+                <div class="grade-row" data-grade="B"><span>B</span><span>70 ~ 79</span></div>
+                <div class="grade-row" data-grade="C"><span>C</span><span>60 ~ 69</span></div>
+                <div class="grade-row" data-grade="D"><span>D</span><span>50 ~ 59</span></div>
+                <div class="grade-row" data-grade="E"><span>E</span><span>40 ~ 49</span></div>
+                <div class="grade-row" data-grade="F"><span>F</span><span>30 ~ 39</span></div>
+                <div class="grade-row" data-grade="G"><span>G</span><span>0 ~ 29</span></div>
+                </div>
+            </div>
+
+            <div class="radar-panel">
+
+                <details class="player-config">
+
+                    <summary>
+                        PLAYER CONFIGURATION
+                        <span class="config-arrow">▼</span>
+                    </summary>
+
+                    <div class="stat-controls">
+
+                        <h2>PLAYER ATTRIBUTES</h2>
+
+                        <label>SPEED
+                            <input type="number" min="0" max="110" value="90" data-stat="SPEED">
+                        </label>
+
+                        <label>DEFENSE
+                            <input type="number" min="0" max="110" value="85" data-stat="DEFENSE">
+                        </label>
+
+                        <label>PASS
+                            <input type="number" min="0" max="110" value="80" data-stat="PASS">
+                        </label>
+
+                        <label>DRIBBLE
+                            <input type="number" min="0" max="110" value="87" data-stat="DRIBBLE">
+                        </label>
+
+                        <label>SHOOT
+                            <input type="number" min="0" max="110" value="78" data-stat="SHOOT">
+                        </label>
+
+                        <label>OFFENSE
+                            <input type="number" min="0" max="110" value="70" data-stat="OFFENSE">
+                        </label>
+                    </div>
+
+                </details>
+                
+                <div id="radar-chart">
+                <svg id="radar" viewBox="-30 -30 560 560" role="img" aria-label="Player stat radar chart">
+                    <g id="radar-grid"></g>
+                    <g id="radar-max-values"></g>
+                    <polygon id="radar-shape"></polygon>
+                    <g id="radar-points"></g>
+                    <g id="radar-labels"></g>
+                    <g id="radar-grades"></g>
+                </svg>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

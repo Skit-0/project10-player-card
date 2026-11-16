@@ -1,0 +1,688 @@
+@font-face {
+    font-family: "DSEG7";
+    src: url("./DSEG7Classic-Italic.ttf") format("truetype");
+}
+/* PROJECT 10 - Blue Lock Player Profile */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: transparent;
+    color: #f5f8ff;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    padding: 24px;
+    line-height: 1.4;
+}
+
+h1 {
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-style: italic;
+    line-height: 1.15;
+    white-space: nowrap;
+    text-shadow: 0 0 24px rgba(0, 128, 255, .55);
+}
+
+p {
+    color: #90a9d2;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+.player-card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    grid-template-areas: "panel chart";
+    align-content: center;
+    align-items: center;
+    column-gap: clamp(24px, 5vw, 64px);
+    row-gap: 16px;
+    width: 100%;
+    max-width: 1400px;
+    min-height: min(90vh, 920px);
+    margin: 28px auto;
+    padding: clamp(22px, 5vw, 44px);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.player-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: none;
+    box-shadow: 0 0 20px #168cff;
+}
+
+#radar-chart {
+    position: relative;
+    z-index: 1;
+}
+
+.radar-panel {
+    grid-area: chart;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    align-self: center;
+    transform: translateY(-35px);
+}
+
+#radar-chart {
+    align-self: center;
+    justify-self: end;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 18px rgba(0, 119, 255, .16));
+}
+
+#radar {
+    width: 100%;
+}
+
+#radar-shape {
+    fill: rgba(0, 153, 255, .28);
+    stroke: #32d5ff;
+    stroke-width: 3.5;
+    filter: drop-shadow(0 0 9px rgba(0, 177, 255, .85));
+}
+.grid-ring {
+    fill: none;
+    stroke: #23466e;
+    stroke-width: 1.25;
+}
+
+#radar-grid polygon:first-child {
+    stroke: #48bdff;
+}
+
+.radar-axis {
+    stroke: #24476f;
+    stroke-width: 1;
+}
+.stat-label {
+    fill: #d9eaff;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: .5px;
+}
+.stat-grade {
+    fill: #50dfff;
+    font-size: 50px;
+    font-weight: 900;
+    stroke: #07101e;
+    stroke-width: 2px;
+    paint-order: stroke;
+    filter: drop-shadow(0 0 6px #078bff);
+}
+
+@media (max-width: 800px) {
+    .player-card {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "panel"
+            "chart";
+        min-height: 0;
+        row-gap: 16px;
+    }
+
+
+    #radar-chart {
+        width: 100%;
+        max-width: min(100%, 620px);
+        margin: 8px auto 0;
+    }
+}
+
+@media (max-width: 520px) {
+    body { padding: 12px; }
+    .player-card { margin: 12px auto; }
+    .stat-label { font-size: 16px; }
+    .stat-grade { font-size: 36px; }
+}
+.stat-value {
+    fill: #9bb8d8;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "DSEG7", monospace;
+}
+/* BLUE LOCK OUTER RING */
+
+.outer-ring {
+    fill: none;
+    stroke: #32d5ff;
+    stroke-width: 2;
+    opacity: 0.8;
+}
+.slash-mark {
+    stroke: #32d5ff;
+    stroke-width: 2;
+    opacity: 0.7;
+}
+.inner-ring {
+    fill: none;
+    stroke: #32d5ff;
+    stroke-width: 1.5;
+    opacity: 0.45;
+}
+.player-panel {
+    grid-area: panel; 
+    position: relative;
+    align-self: start;
+    transform: translateY(-24px);
+    width: 260px;
+    padding: 10px;
+}
+
+.player-card-frame {
+    background-image:
+    linear-gradient(rgba(50, 213, 255, 0.40) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(50, 213, 255, 0.40) 1px, transparent 1px);
+background-size: 28px 28px;
+    width: 100%;
+    min-height: 490px;
+    border: 2px solid #32d5ff;
+    background-color: rgba(10, 30, 55, 0.8);
+    position: relative;
+    clip-path: polygon(
+    45px 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    0 45px
+);
+}
+.player-card-frame::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -2px;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(
+        135deg,
+        transparent 47%,
+        #32d5ff 49%,
+        #32d5ff 52%,
+        transparent 54%
+    );
+    pointer-events: none;
+
+}
+.portrait-frame {
+    position: absolute;
+    top: 62px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 175px;
+    height: 175px;
+    background: #32d5ff;
+    filter: drop-shadow(0 0 12px rgba(50, 213, 255, 0.25));
+    clip-path: polygon(
+        50% 0,
+      97.5% 34.5%,
+        79.4% 90.5%,
+        20.6% 90.5%,
+        2.5% 34.5%
+    );
+
+}
+.portrait-frame::after {
+    z-index: 0;
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #081a33;
+    clip-path: polygon(
+        50% 0,
+        97.5% 34.5%,
+        79.4% 90.5%,
+        20.6% 90.5%,
+        2.5% 34.5%
+    );
+        
+}
+
+.lower-stat-frame {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 26px);
+    height: 224px;
+    background: #32d5ff;
+    clip-path: polygon(30% 0, 70% 0, 100% 16%, 100% 100%, 0 100%, 0 16%);
+}
+
+.lower-stat-frame::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #081a33;
+    clip-path: polygon(30% 0, 70% 0, 100% 16%, 100% 100%, 0 100%, 0 16%);
+    z-index: 0;
+}
+.player-name {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #eaf6ff;
+    text-shadow: 0 0 10px rgba(50, 213, 255, 0.35);
+    z-index: 2;
+}
+.total-label {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 900;
+    color: #eaf6ff;
+    z-index: 1;
+}
+
+.total-score {
+    position: absolute;
+    top: 64px;
+    width: 100%;
+    text-align: center;
+    font-family: "DSEG7", monospace;
+    font-size: 38px;
+    color: #eaf6ff;
+    z-index: 1;
+}
+
+.overall-grade {
+    position: absolute;
+    top: 114px;
+    width: 100%;
+    text-align: center;
+    font-size: 100px;
+    line-height: 1;
+    font-weight: 900;
+    color: #32d5ff;
+    text-shadow: 0 0 15px rgba(50, 213, 255, 0.4);
+    z-index: 1;
+}
+#import-image {
+    position: absolute;
+    top: 62px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 175px;
+    height: 175px;
+    z-index: 20;
+    opacity: 0;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: #eaf6ff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(50, 213, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 0.2s ease;
+}
+
+/* Optional cool hover hint: hovering over the emblem shows "IMPORT PLAYER PICTURE" */
+#import-image:hover {
+    opacity: 0.85;
+}
+
+.portrait-frame {
+    cursor: pointer;
+}
+#player-image {
+    position: absolute;
+    inset: 2px;
+    object-position: center bottom;
+    transform: translateY(7px) scale(0.92);
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    object-fit: contain;
+    display: none;
+    z-index: 3;
+    clip-path: inset(0 0 0 0);
+}
+
+/* One slow, constant-speed bottom-to-top wipe */
+#player-image.revealing {
+    display: block !important;
+    animation: persona-wipe 1s linear forwards;
+}
+
+@keyframes persona-wipe {
+    from {
+        clip-path: inset(88% 0 0 0); /* Hidden at the very bottom */
+    }
+    to {
+        clip-path: inset(0% 0 0 0);   /* Fully revealed at the top */
+    }
+}
+
+.grading-system {
+    position: relative;
+    width: 100%;
+    margin: 18px 0 0;
+    padding: 6px 0 12px 18px;
+    background: transparent;
+    border: 0;
+    border-left: 2px solid #32d5ff;
+    border-bottom: 2px solid #32d5ff;
+}
+
+.grade-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    column-gap: 50px;
+    align-items: center;
+    padding: 2px 0;
+    color: #eaf6ff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.grade-row.active::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 14px solid #32d5ff;
+}
+
+.grade-row span:first-child {
+    color: #eaf6ff;
+    font-size: 30px;
+}
+
+.grade-row span:nth-child(2) {
+    letter-spacing: 2px;
+}
+/* PROJECT 10 - STAT CONTROLS */
+
+.stat-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    max-width: 420px;
+    margin: 30px auto;
+    padding: 20px;
+    background: transparent;
+    border: 1px solid #32d5ff;
+    box-shadow: 0 0 15px rgba(50, 213, 255, 0.15);
+}
+.stat-controls h2 {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+.stat-controls input {
+    width: 65px;
+    padding: 5px 7px;
+    background: #0d2545;
+    color: #32d5ff;
+    border: 1px solid #32d5ff;
+    border-radius: 3px;
+    font-family: "DSEG7", monospace;
+    font-size: 19px;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+    box-shadow: 0 0 8px rgba(50, 213, 255, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.stat-controls input:hover {
+    border-color: #ffffff;
+    box-shadow: 0 0 12px rgba(50, 213, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.stat-controls input:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 12px rgba(50, 213, 255, 0.4);
+}
+.stat-controls label:focus-within {
+    color: #32d5ff;
+    text-shadow: 0 0 8px rgba(50, 213, 255, 0.7);
+}
+.stat-grade {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                fill 0.3s ease,
+                filter 0.3s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.stat-grade.highlight {
+    fill: #ffffff;
+    transform: none;
+    filter: drop-shadow(0 0 8px #32d5ff);
+}
+.radar-axis {
+    transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
+}
+
+.radar-axis.highlight {
+    stroke: #ffffff;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 5px #32d5ff);
+}
+/* RADAR VERTEX POINTS */
+
+.radar-point {
+    fill: #32d5ff;
+    stroke: none;
+    stroke-width: 2px;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                fill 0.3s ease,
+                filter 0.3s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.radar-point.highlight {
+    fill: #ffffff;
+    transform: scale(1.8);
+    filter: drop-shadow(0 0 8px #32d5ff);
+}
+/* =========================================================
+   OFFICIAL BLUE LOCK LOGO (EXACT 5-FOLD GEOMETRY + FAN-OUT)
+   ========================================================= */
+
+.pentagon-boot {
+    --unfold-speed: 0.23s; /* <-- CHANGE JUST THIS ONE NUMBER! (Higher = slower, Lower = faster) */
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    display: block;
+}
+
+/* Single exact piece rotated 5 times (72° increments) around (50%, 50%):
+   - Inner pentagon = 32.47% of outer radius
+   - Parallel constant-width seams perpendicular to every edge
+*/
+.boot-piece {
+    position: absolute;
+    inset: 0;
+    background: #0b4ec2; /* Official Blue Lock deep cobalt blue */
+    clip-path: polygon(
+        50.00% 2.50%,
+        71.65% 18.23%,
+        56.39% 39.22%,
+        50.00% 34.58%,
+        43.61% 39.22%,
+        28.35% 18.23%
+    );
+    transform-origin: 50% 50%;
+    opacity: 1;
+}
+
+/* Rested assembled positions + stacking order */
+.piece-1 { transform: rotate(0deg);   z-index: 5; }
+.piece-2 { transform: rotate(72deg);  z-index: 4; }
+.piece-3 { transform: rotate(144deg); z-index: 3; }
+.piece-4 { transform: rotate(216deg); z-index: 2; }
+.piece-5 { transform: rotate(288deg); z-index: 1; }
+
+/* Hide pieces 2-5 until the previous piece reaches their starting spot */
+.pentagon-boot.active .piece-2,
+.pentagon-boot.active .piece-3,
+.pentagon-boot.active .piece-4,
+.pentagon-boot.active .piece-5 {
+    opacity: 0;
+}
+
+/* One quick, constant-speed motion per piece with zero settling */
+.pentagon-boot.active .piece-1 {
+    transform: rotate(0deg);
+}
+.pentagon-boot.active .piece-2 {
+    animation: unfold-2 var(--unfold-speed) linear 0s forwards;
+}
+.pentagon-boot.active .piece-3 {
+    animation: unfold-3 var(--unfold-speed) linear calc(var(--unfold-speed) * 1) forwards;
+}
+.pentagon-boot.active .piece-4 {
+    animation: unfold-4 var(--unfold-speed) linear calc(var(--unfold-speed) * 2) forwards;
+}
+.pentagon-boot.active .piece-5 {
+    animation: unfold-5 var(--unfold-speed) linear calc(var(--unfold-speed) * 3) forwards;
+}
+
+@keyframes unfold-2 {
+    0%   { opacity: 1; transform: rotate(0deg); }
+    100% { opacity: 1; transform: rotate(72deg); }
+}
+
+@keyframes unfold-3 {
+    0%   { opacity: 1; transform: rotate(72deg); }
+    100% { opacity: 1; transform: rotate(144deg); }
+}
+
+@keyframes unfold-4 {
+    0%   { opacity: 1; transform: rotate(144deg); }
+    100% { opacity: 1; transform: rotate(216deg); }
+}
+
+@keyframes unfold-5 {
+    0%   { opacity: 1; transform: rotate(216deg); }
+    100% { opacity: 1; transform: rotate(288deg); }
+}
+
+/* =========================================================
+   BOTTOM-TO-TOP PERSONA WIPE REVEAL
+   ========================================================= */
+
+#player-image {
+    position: relative;
+    z-index: 3;
+}
+
+#player-image.revealing {
+    display: block !important;
+    animation: persona-wipe-up 0.5s linear forwards;
+}
+
+@keyframes persona-wipe-up {
+    0% {
+        clip-path: inset(88% 0 0 0);
+    }
+    100% {
+        clip-path: inset(0% 0 0 0);
+    }
+}
+/* =========================================================
+   ANIME DOUBLE-FLICKER DURING PERSONA WIPE
+   ========================================================= */
+
+.pentagon-boot.flickering {
+    animation: pentagon-double-flicker 0.45s steps(1, end) forwards;
+}
+
+@keyframes pentagon-double-flicker {
+    0%   { opacity: 1; }
+    45%  { opacity: 0; } /* 1st quick blink OFF */
+    60%  { opacity: 1; } /* Back ON */
+    75%  { opacity: 0; } /* 2nd quick blink OFF */
+    90%  { opacity: 1; } /* Back ON permanently */
+    100% { opacity: 1; }
+}
+/* PLAYER CONFIGURATION DROPDOWN */
+
+.player-config {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    background: transparent;
+    border: 1px solid #32d5ff;
+    box-shadow: 0 0 15px rgba(50, 213, 255, 0.15);
+}
+
+.player-config summary {
+    padding: 18px 22px;
+    color: #32d5ff;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-config summary::-webkit-details-marker {
+    display: none;
+}
+
+.config-arrow {
+    transition: transform 0.3s ease;
+}
+
+.player-config[open] .config-arrow {
+    transform: rotate(180deg);
+}
+
+.player-config .stat-controls {
+    margin: 0;
+    max-width: 100%;
+    border: none;
+    border-top: 1px solid #32d5ff;
+    box-shadow: none;
+}
